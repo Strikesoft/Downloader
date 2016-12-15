@@ -27,7 +27,10 @@ class Router
     }
 
     $this->app->error(function (\Exception $e, $code) {
-      return new Response($e->getMessage());
+      return $this->app['twig']->render('base/error.twig', array(
+        'code'      => $code,
+        'exceptMsg' => $e->getMessage()
+      ));
     });
   }
 
