@@ -26,20 +26,18 @@ class Router
       $this->app->get($path, $controller)->method('GET');
     }
 
-    $app->error(function (\Exception $e, $code) {
-      return new Response();
+    $this->app->error(function (\Exception $e, $code) {
+      return new Response($e->getMessage());
     });
   }
 
   private function registerController() {
     $tabController = array(
-        'indexController' => new Controller\IndexController($app)
+        'indexController' => new Controller\IndexController($this->app)
     );
 
     foreach ($tabController as $key => $value) {
-        $this->app[$key] = $this->app->share(function () use ($value) {
-            return $value;
-        });
+        $this->app[$key] = $value;
     }
   }
 }

@@ -4,17 +4,17 @@ namespace Downloader\Controller;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Downloader\BaseController;
 
-class IndexController
+class IndexController extends BaseController
 {
-  private $app;
-
-  public function __construct(Application $_app)
-  {
-    $this->app = $_app;
+  public function __construct(Application $_app) {
+      parent::__construct($_app);
   }
 
   public function indexAction() {
-    
+    return $this->render('index/index.twig', array(
+      'name' => 'Johann-S',
+    ));
   }
  }
