@@ -13,7 +13,7 @@ abstract class BaseController {
       $this->app = $_app;
   }
 
-  protected function render($template, array $vars) {
+  protected function render($template, array $vars = array()) {
     return $this->app['twig']->render($template, $vars);
   }
 }
