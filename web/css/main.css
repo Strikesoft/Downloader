@@ -22,6 +22,11 @@ body {
   background-color: #434857;
 }
 
+.form-control:focus {
+    background-color: #434857;
+    border-color: #0275d8;
+}
+
 hr {
   border-top: 1px solid #434857;
 }
