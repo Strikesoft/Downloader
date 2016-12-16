@@ -1,10 +1,17 @@
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: #CFD2DA;
   background-color: #252830;
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
 }
 
 .jumbotron {
@@ -23,4 +30,42 @@ hr {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.btn-outline-primary:hover {
+  color: #FFFFFF;
+  background-color: #434857;
+  border-color: #0275d8;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #181B24;
+  text-align: center;
+}
+
+a {
+  color: #1ca8dd;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #137499;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+.heart-icon {
+  height: 16px;
+  width: 16px;
+  fill: #FF0000;
 }
