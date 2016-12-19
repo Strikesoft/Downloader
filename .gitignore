@@ -1,2 +1,4 @@
 /vendor/
 .idea/
+config/param.yml
+web/download/
