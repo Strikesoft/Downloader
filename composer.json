@@ -2,7 +2,8 @@
     "require": {
         "silex/silex": "~2.0",
         "twig/twig": "^1.29",
-        "symfony/yaml": "^3.2"
+        "symfony/yaml": "^3.2",
+        "guzzlehttp/guzzle": "^6.2"
     },
    "autoload": {
        "psr-4": {
