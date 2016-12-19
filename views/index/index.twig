@@ -4,18 +4,21 @@
   <h1 id="titleApp" class="display-3">Downloader</h1>
   <hr class="my-2">
   <form id="formDownload" class="center-block">
-    <div class="form-group row">
+    <div id="formGrpUrl" class="form-group row">
       <label for="inputUrl" class="col-sm-2 col-form-label">URL : </label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputUrl" placeholder="">
       </div>
     </div>
     <div class="form-group row">
-      <button type="button" class="btn btn-outline-primary center-block">Download</button>
+      <button id="btnDownload" type="button" class="btn btn-outline-primary center-block">Download</button>
     </div>
   </form>
 </div>
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="/css/index.css"/>
+{% endblock %}
+{% block javascript %}
+<script src="/js/index.js"></script>
 {% endblock %}
