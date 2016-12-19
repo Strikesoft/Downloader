@@ -8,4 +8,8 @@ You'll have to setup Downloader on your own server.
   - Twig (http://twig.sensiolabs.org/)
   - jQuery (http://jquery.com/)
   - Bootstrap 4 (http://v4-alpha.getbootstrap.com/)
-  - Iconic (https://useiconic.com/)
+
+License
+------------
+
+This project is released under the MIT license. See the complete license in the bundled [LICENSE](https://github.com/Strikesoft/Downloader/blob/master/LICENSE) file.
