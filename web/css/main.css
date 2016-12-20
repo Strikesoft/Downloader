@@ -20,11 +20,13 @@ body {
 
 .form-control {
   background-color: #434857;
+  color: #CFD2DA;
 }
 
 .form-control:focus {
-    background-color: #434857;
-    border-color: #0275d8;
+  background-color: #434857;
+  border-color: #0275d8;
+  color: #CFD2DA;
 }
 
 hr {
@@ -73,4 +75,8 @@ a:focus {
   height: 16px;
   width: 16px;
   fill: #FF0000;
+}
+
+.hide {
+  display: none;
 }
