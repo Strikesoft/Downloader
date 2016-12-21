@@ -5,12 +5,13 @@ var Downloader = (function () {
     return /^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str);
   }
 
-  function ajax(callbacks) {
+  function ajax(params) {
     $.ajax({
       method: 'POST',
       url: window.location.href,
-      success: callbacks.success,
-      error: callbacks.error
+      data: params.data,
+      success: params.callbackSuccess,
+      error: params.callbackError
     });
   }
 
@@ -23,7 +24,8 @@ var Downloader = (function () {
       this.$input.removeClass('form-control-danger');
       this.$formGroupUrl.removeClass('has-danger');
       var tmpUrl = this.$input.val();
-      if (!isUrl(tmpUrl)) {
+      // URL must be under 2000 characters
+      if (!isUrl(tmpUrl) || tmpUrl.length > 2000) {
         this.$input.addClass('form-control-danger');
         this.$formGroupUrl.addClass('has-danger');
         return;
@@ -35,11 +37,11 @@ var Downloader = (function () {
         data: {
           url: tmpUrl
         },
-        success: function () {
+        callbackSuccess: function () {
           _Downloader.$btnDl.removeClass('hide');
           _Downloader.$loader.addClass('hide');
         },
-        error: function () {
+        callbackError: function () {
           _Downloader.$btnDl.removeClass('hide');
           _Downloader.$loader.addClass('hide');
         }

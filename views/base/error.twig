@@ -2,6 +2,11 @@
 {% block content %}
   <h1>Error</h1>
   <div class="alert alert-warning" role="alert">
-    <p>{{exceptMsg}}</p>
+    {% if debug %}
+      <p>{{exceptMsg}}</p>
+      <p>{{code}}</p>
+    {% else %}
+      <p>Something wrong occured</p>
+    {% endif %}
   </div>
 {% endblock %}

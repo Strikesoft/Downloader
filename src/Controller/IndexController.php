@@ -22,7 +22,7 @@ class IndexController extends BaseController
   }
 
   public function indexPostAction(Request $request) {
-    $downloader = new Downloader();
+    $downloader = new Downloader($this->app['downloadfolder'], $this->app['downloadurl']);
     return $this->app->json($downloader->download($request));
   }
  }

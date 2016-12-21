@@ -35,6 +35,7 @@ class Router
 
     $this->app->error(function (\Exception $e, $code) {
       return $this->app['twig']->render('base/error.twig', array(
+        'debug'     => $this->app['debug'],
         'code'      => $code,
         'exceptMsg' => $e->getMessage()
       ));
