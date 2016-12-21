@@ -5,6 +5,7 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Downloader\BaseController;
+use Downloader\Util\Downloader;
 
 /**
  * Index controller
@@ -18,5 +19,10 @@ class IndexController extends BaseController
 
   public function indexAction() {
     return $this->render('index/index.twig');
+  }
+
+  public function indexPostAction(Request $request) {
+    $downloader = new Downloader();
+    return $this->app->json($downloader->download($request));
   }
  }

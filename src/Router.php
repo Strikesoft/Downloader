@@ -12,11 +12,15 @@ class Router
 {
   private $app;
   private $tabGetRoute;
+  private $tabPostRoute;
 
   public function __construct(Application $app) {
     $this->app = $app;
     $this->tabGetRoute = array(
         '/' => 'indexController:indexAction'
+    );
+    $this->tabPostRoute = array(
+        '/' => 'indexController:indexPostAction'
     );
   }
 
@@ -24,6 +28,9 @@ class Router
     $this->registerController();
     foreach ($this->tabGetRoute as $path => $controller) {
       $this->app->get($path, $controller)->method('GET');
+    }
+    foreach ($this->tabPostRoute as $path => $controller) {
+      $this->app->get($path, $controller)->method('POST');
     }
 
     $this->app->error(function (\Exception $e, $code) {
