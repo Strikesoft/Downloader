@@ -24,12 +24,22 @@ class Downloader {
         $url = $request->request->get('url', null);
         $checkFile = $this->checkFile($url);
         if ($checkFile['error']) {
-          return array('error' => $checkFile['message']);
+            return array('error' => $checkFile['message']);
         }
         $filename = $this->getFileName($url);
-        $handle = fopen($this->pathDownload . $filename, 'w');
+        $pathFile = $this->pathDownload . $filename;
+        $handle = fopen($pathFile, 'w');
         $client = new Client();
         $client->request('GET', $url, ['sink' => $handle]);
+
+        // Security about fake images
+        if ($checkFile['isImage']) {
+            list($width, $height) = getimagesize($pathFile);
+            if ($width === 0 && $height === 0) {
+                unlink($pathFile);
+                return array('error' => 'Not a valid image');
+            }
+        }
         return array(
             'downloadLink' => $this->downloadUrl . $filename,
             'filename'     => $filename
