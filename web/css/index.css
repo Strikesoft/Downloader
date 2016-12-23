@@ -15,3 +15,11 @@
 .loader {
   height: 32px;
 }
+
+#divResultUrl {
+  width: 499px;
+}
+
+#divResultUrl p {
+  text-align: center;
+}

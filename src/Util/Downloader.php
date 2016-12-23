@@ -3,66 +3,75 @@ namespace Downloader\Util;
 
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * A class to download everything
  * @author: Johann-S
  */
 class Downloader {
-  private $pathDownload;
-  private $downloadUrl;
-  private $allowedFiles = array('zip', 'exe', 'rar');
-  private $allowedImages = array('png', 'jpg', 'jpeg', 'gif', 'bmp');
-  private $guzzle;
+    private $pathDownload;
+    private $downloadUrl;
+    private $allowedFiles = array('zip', 'exe', 'rar', 'msi');
+    private $allowedImages = array('png', 'jpg', 'jpeg', 'gif', 'bmp');
 
-  public function __construct($_pathDownload, $_downloadUrl) {
-    $this->pathDownload = $_pathDownload;
-    $this->downloadUrl = $_downloadUrl;
-    $this->guzzle = new Client();
-  }
+    public function __construct($_pathDownload, $_downloadUrl) {
+        $this->pathDownload = $_pathDownload;
+        $this->downloadUrl = $_downloadUrl;
+    }
 
-  public function download(Request $request) {
-    $url = $request->request->get('url', null);
-    $checkFile = $this->checkFile($url);
-    if ($checkFile['error']) {
-      return array('error' => $checkFile['message']);
+    public function download(Request $request) {
+        $url = $request->request->get('url', null);
+        $checkFile = $this->checkFile($url);
+        if ($checkFile['error']) {
+          return array('error' => $checkFile['message']);
+        }
+        $filename = $this->getFileName($url);
+        $handle = fopen($this->pathDownload . $filename, 'w');
+        $client = new Client();
+        $client->request('GET', $url, ['sink' => $handle]);
+        return array(
+            'downloadLink' => $this->downloadUrl . $filename,
+            'filename'     => $filename
+        );
     }
-    return array('downloadLink' => '');
-  }
 
-  private function checkFile($url) {
-    $error = false;
-    $message = null;
-    $isImage = false;
-    if ($url === null) {
-      $error = true;
-      $message = 'Please provide a valid url';
+    private function checkFile($url) {
+        $error = false;
+        $message = null;
+        if ($url === null) {
+          $error = true;
+          $message = 'Please provide a valid url';
+        }
+        if (!$this->url_exist($url)) {
+          $error = true;
+          $message = 'this url doesn\'t exist';
+        }
+        $ext = strtolower(substr(strrchr($url, '.'), 1));
+        if (!in_array($ext, $this->allowedFiles) && !in_array($ext, $this->allowedImages)) {
+          $error = true;
+          $message = 'file not allowed';
+        }
+        $isImage = in_array($ext, $this->allowedImages);
+        return array(
+          'error' => $error,
+          'isImage' => $isImage,
+          'message' => $message
+        );
     }
-    if (!$this->url_exist($url)) {
-      $error = true;
-      $message = 'this url doesn\'t exist';
-    }
-    $ext = strtolower(substr(strrchr($url, '.'), 1));
-    if (!in_array($this->allowedFiles, $ext) && !in_array($this->allowedImages, $ext)) {
-      $error = true;
-      $message = 'file not allowed';
-    }
-    $isImage = in_array($this->allowedImages, $ext);
-    return array(
-      'error' => $error,
-      'isImage' => $isImage,
-      'message' => $message
-    );
-  }
 
-  private function url_exist($url) {
-    try {
-      $this->guzzle->request('HEAD', $url);
-      return true;
+    private function url_exist($url) {
+        try {
+          $client = new Client();
+          $client->request('HEAD', $url);
+          return true;
+        }
+        catch (ClientException $e) {
+          return false;
+        }
     }
-    catch (ClientException $e) {
-      return false;
+
+    private function getFileName($url) {
+        return @end(explode('/', $url));
     }
-  }
 }

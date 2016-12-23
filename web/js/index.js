@@ -37,7 +37,10 @@ var Downloader = (function () {
         data: {
           url: tmpUrl
         },
-        callbackSuccess: function () {
+        callbackSuccess: function (data) {
+          if (typeof data.downloadLink !== 'undefined') {
+            $('#downloadLink').attr('href', data.downloadLink).html(data.filename);
+          }
           _Downloader.$btnDl.removeClass('hide');
           _Downloader.$loader.addClass('hide');
         },
