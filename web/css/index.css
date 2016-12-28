@@ -17,7 +17,12 @@
 }
 
 #divResultUrl {
-  width: 499px;
+  margin-bottom: 0;
+  padding: 15px 0 0 0;
+}
+
+#divResultUrl a {
+  font-size: 20px;
 }
 
 #divResultUrl p {

@@ -11,11 +11,17 @@
             </div>
         </div>
         <div id="resultUrlGrp" class="form-group row">
-            <div id="divResultUrl" class="center-block">
+          <label class="col-sm-2 col-form-label"></label>
+          <div class="col-sm-10">
+            <div id="divResultUrl" class="alert alert-success center-block hide" role="alert">
                 <p>
-                    <a id="downloadLink" href="#"></a>
+                  <a id="downloadLink" href="#">
+                    <svg class="icon"><use xlink:href="/svg/sprite.min.svg#data-transfer-download"></use></svg>
+                    <span id="titleDownload"></span>
+                  </a>
                 </p>
             </div>
+          </div>
         </div>
         <div class="form-group row">
             <button id="btnDownload" type="button" class="btn btn-outline-primary center-block">Download</button>

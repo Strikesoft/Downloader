@@ -57,7 +57,7 @@ hr {
 }
 
 a {
-  color: #1ca8dd;
+  color: #1CA8DD;
   text-decoration: none;
 }
 
@@ -71,12 +71,29 @@ a:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 
-.heart-icon {
+.icon {
   height: 16px;
   width: 16px;
+}
+
+.heart-icon {
   fill: #FF0000;
 }
 
 .hide {
   display: none;
+}
+
+.alert-success {
+  background-color: #159C6E;
+  border-color: transparent;
+}
+
+.alert a {
+  color: #CFD2DA;
+}
+
+.alert {
+  color: #CFD2DA;
+  fill: #CFD2DA;
 }

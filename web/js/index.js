@@ -20,9 +20,11 @@ var Downloader = (function () {
     $formGroupUrl: null,
     $btnDl: null,
     $loader: null,
+    $divResultUrl: null,
     download: function () {
       this.$input.removeClass('form-control-danger');
       this.$formGroupUrl.removeClass('has-danger');
+      this.$divResultUrl.addClass('hide');
       var tmpUrl = this.$input.val();
       // URL must be under 2000 characters
       if (!isUrl(tmpUrl) || tmpUrl.length > 2000) {
@@ -39,7 +41,9 @@ var Downloader = (function () {
         },
         callbackSuccess: function (data) {
           if (typeof data.downloadLink !== 'undefined') {
-            $('#downloadLink').attr('href', data.downloadLink).html(data.filename);
+            $('#downloadLink').attr('href', data.downloadLink);
+            $('#titleDownload').html(data.filename);
+            _Downloader.$divResultUrl.removeClass('hide');
           }
           _Downloader.$btnDl.removeClass('hide');
           _Downloader.$loader.addClass('hide');
@@ -57,6 +61,7 @@ $(function() {
   Downloader.$input = $('#inputUrl');
   Downloader.$formGroupUrl = $('#formGrpUrl');
   Downloader.$btnDl = $('#btnDownload');
+  Downloader.$divResultUrl = $('#divResultUrl');
   Downloader.$loader = $('.loader');
   Downloader.$btnDl.on('click', function () { Downloader.download(); });
 });
