@@ -9,6 +9,13 @@ You'll have to setup Downloader on your own server.
   - jQuery (http://jquery.com/)
   - Bootstrap 4 (http://v4-alpha.getbootstrap.com/)
 
+How to setup Downloader
+------------
+
+- Download source code on Github
+- Install dependencies with ``composer install``
+- Setup Apache or Nginx (see examples : https://github.com/Strikesoft/Downloader/issues/8)
+
 License
 ------------
 
