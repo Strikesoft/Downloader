@@ -1,5 +1,22 @@
 {
+    "name": "Strikesoft/Downloader",
+    "description": "A simple software to download what you want from any URL.",
+    "type": "software",
+    "keywords": ["download", "mega", "direct", "mega.co.nz" ],
+    "homepage": "https://github.com/Strikesoft/Downloader",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Johann SERVOIRE",
+            "email": "johann.servoire@gmail.com",
+            "homepage": "https://github.com/Johann-S"
+        }
+    ],
     "require": {
+        "php": ">=5.6.0",
+        "ext-mcrypt": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
         "silex/silex": "~2.0",
         "twig/twig": "^1.29",
         "symfony/yaml": "^3.2",
