@@ -20,7 +20,8 @@
         "silex/silex": "~2.0",
         "twig/twig": "^1.29",
         "symfony/yaml": "^3.2",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "monolog/monolog": "^1.22"
     },
    "autoload": {
        "psr-4": {

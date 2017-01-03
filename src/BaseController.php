@@ -1,7 +1,7 @@
 <?php
 namespace Downloader;
 
-use Silex\Application;
+use Silex\Application as SilexApplication;
 
 /**
  * Base controller
@@ -9,7 +9,7 @@ use Silex\Application;
  */
 abstract class BaseController {
   protected $app;
-  protected function __construct(Application $_app) {
+  protected function __construct(SilexApplication $_app) {
       $this->app = $_app;
   }
 

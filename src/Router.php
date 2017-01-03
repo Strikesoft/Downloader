@@ -1,7 +1,7 @@
 <?php
 namespace Downloader;
 
-use Silex\Application;
+use Silex\Application as SilexApplication;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,7 +14,7 @@ class Router
   private $tabGetRoute;
   private $tabPostRoute;
 
-  public function __construct(Application $app) {
+  public function __construct(SilexApplication $app) {
     $this->app = $app;
     $this->tabGetRoute = array(
         '/' => 'indexController:indexAction'

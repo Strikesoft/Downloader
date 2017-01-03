@@ -1,3 +1,4 @@
 debug: false
+log: false
 downloadfolder: /var/www/Downloader/web/download/
 downloadurl: http://mydownloader.com/download/

@@ -2,3 +2,4 @@
 .idea/
 config/param.yml
 web/download/
+logs/
