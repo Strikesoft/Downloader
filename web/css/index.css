@@ -28,3 +28,15 @@
 #divResultUrl p {
   text-align: center;
 }
+
+@media screen and (min-width: 200px) and (max-width: 640px) {
+  #formDownload {
+    width: 300px;
+  }
+
+  #titleApp {
+    /* change display-3 to display-4 css rules */
+    font-size: 3.5rem;
+    font-weight: 300;
+  }
+}
