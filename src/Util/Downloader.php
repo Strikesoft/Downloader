@@ -35,7 +35,10 @@ class Downloader {
         $pathFile = $this->pathDownload . $filename;
         $handle = fopen($pathFile, 'w');
         $client = new Client();
-        $client->request('GET', $url, ['sink' => $handle]);
+        $client->request('GET', $url, array(
+            'sink' => $handle,
+            'verify' => false // TODO : allow to pass ssl certificate
+        ));
 
         // Security about fake images
         if ($checkFile['isImage']) {
@@ -120,7 +123,9 @@ class Downloader {
     private function url_exist($url) {
         try {
           $client = new Client();
-          $client->request('HEAD', $url);
+          $client->request('HEAD', $url, array(
+              'verify' => false // TODO : allow to pass ssl certificate
+          ));
           return true;
         }
         catch (ClientException $e) {
