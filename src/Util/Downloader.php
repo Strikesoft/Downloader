@@ -4,6 +4,7 @@ namespace Downloader\Util;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Downloader\Application;
 
 /**
  * A class to download everything
@@ -29,6 +30,7 @@ class Downloader {
         if ($checkFile['error']) {
             return array('error' => $checkFile['message']);
         }
+        Application::log('info', 'Download : ' . $url);
         $filename = $this->getFileName($url);
         $pathFile = $this->pathDownload . $filename;
         $handle = fopen($pathFile, 'w');
@@ -72,6 +74,7 @@ class Downloader {
 
         $fileInfo = array_merge($fileInfo, Mega::parse_link($url));
         $pathFile = $this->pathDownload . $filename;
+        Application::log('info', 'Download Mega link : ' . $url);
         $fp = fopen($pathFile, 'wb');
         $mega->public_file_download($fileInfo['ph'], $fileInfo['key'], $fp);
         fclose($fp);
@@ -121,6 +124,7 @@ class Downloader {
           return true;
         }
         catch (ClientException $e) {
+          Application::log('warning', 'This url do not exist : ' . $url);
           return false;
         }
     }
