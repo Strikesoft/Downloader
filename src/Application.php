@@ -16,28 +16,24 @@ use Symfony\Component\Yaml\Yaml;
 class Application
 {
   private $app;
+  private static $appDownloader;
 
-  public function boot() {
+  private function __construct() {
     $this->app = new SilexApplication();
-    $this->loadConfig();
-    $this->app->register(new ServiceControllerServiceProvider());
-    $this->app->register(new TwigServiceProvider(), array(
-      'twig.path' => __DIR__ . '/../views',
-    ));
-    // Register monolog only if log = true in config file
-    if (isset($this->app['log']) && $this->app['log']) {
-      $this->app->register(new MonologServiceProvider(), array(
-        'monolog.name' => 'Downloader',
-        'monolog.logfile' => __DIR__ . '/../logs/downloader-' . date('Y-m-d') . '.log'
-      ));
-    }
-    $router = new Router($this->app);
-    $request = Request::createFromGlobals();
-    $router->load();
-    $this->app->run($request);
   }
 
-  public static function log(SilexApplication $app, $type, $message, $vars = array()) {
+  public static function boot() {
+    $app = self::getApp();
+    $app->loadConfig();
+    $app->registerProviders();
+    self::log('info', 'Boot Downloader...');
+    $router = new Router($app->getSilexApp());
+    $router->load();
+    $app->run();
+  }
+
+  public static function log($type, $message, $vars = array()) {
+    $app = self::getApp()->getSilexApp();
     if (!isset($app['log']) || !$app['log']) {
       return;
     }
@@ -69,10 +65,40 @@ class Application
     }
   }
 
+  private static function getApp() {
+    if (!self::$appDownloader instanceof Application) {
+      self::$appDownloader = new Application();
+    }
+    return self::$appDownloader;
+  }
+
   private function loadConfig() {
     $config = Yaml::parse(file_get_contents(__DIR__ . '/../config/param.yml'));
     foreach ($config as $key => $value) {
       $this->app[$key] = $value;
     }
+  }
+
+  private function registerProviders() {
+    $this->app->register(new ServiceControllerServiceProvider());
+    $this->app->register(new TwigServiceProvider(), array(
+      'twig.path' => __DIR__ . '/../views',
+    ));
+    // Register monolog only if log = true in config file
+    if (isset($this->app['log']) && $this->app['log']) {
+      $this->app->register(new MonologServiceProvider(), array(
+        'monolog.name' => 'Downloader',
+        'monolog.logfile' => __DIR__ . '/../logs/downloader-' . date('Y-m-d') . '.log'
+      ));
+    }
+  }
+
+  private function run() {
+    $request = Request::createFromGlobals();
+    $this->app->run($request);
+  }
+
+  private function getSilexApp() {
+    return $this->app;
   }
 }
