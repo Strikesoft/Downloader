@@ -1,7 +1,6 @@
 <IfModule mod_authz_core.c>
-    Require all denied
+    Options -Indexes 
 </IfModule>
 <IfModule !mod_authz_core.c>
-    Order deny,allow
-    Deny from all
+    Options -Indexes
 </IfModule>
