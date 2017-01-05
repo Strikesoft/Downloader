@@ -100,37 +100,37 @@ class Downloader {
         $error = false;
         $message = null;
         if ($url === null) {
-          $error = true;
-          $message = 'Please provide a valid url';
+            $error = true;
+            $message = 'Please provide a valid url';
         }
         if (!$this->url_exist($url)) {
-          $error = true;
-          $message = 'this url doesn\'t exist';
+            $error = true;
+            $message = 'this url doesn\'t exist';
         }
         $ext = strtolower(substr(strrchr($url, '.'), 1));
         if (!in_array($ext, $this->allowedFiles) && !in_array($ext, $this->allowedImages)) {
-          $error = true;
-          $message = 'file not allowed';
+            $error = true;
+            $message = 'file not allowed';
         }
         $isImage = in_array($ext, $this->allowedImages);
         return array(
-          'error' => $error,
-          'isImage' => $isImage,
-          'message' => $message
+            'error' => $error,
+            'isImage' => $isImage,
+            'message' => $message
         );
     }
 
     private function url_exist($url) {
         try {
-          $client = new Client();
-          $client->request('HEAD', $url, array(
-              'verify' => false // TODO : allow to pass ssl certificate
-          ));
-          return true;
+            $client = new Client();
+            $client->request('HEAD', $url, array(
+                'verify' => false // TODO : allow to pass ssl certificate
+            ));
+            return true;
         }
         catch (ClientException $e) {
-          Application::log('warning', 'This url do not exist : ' . $url);
-          return false;
+            Application::log('warning', 'This url do not exist : ' . $url);
+            return false;
         }
     }
 

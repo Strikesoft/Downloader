@@ -8,12 +8,12 @@ use Silex\Application as SilexApplication;
  * @author: Johann-S
  */
 abstract class BaseController {
-  protected $app;
-  protected function __construct(SilexApplication $_app) {
-      $this->app = $_app;
-  }
+    protected $app;
+    protected function __construct(SilexApplication $_app) {
+        $this->app = $_app;
+    }
 
-  protected function render($template, array $vars = array()) {
-    return $this->app['twig']->render($template, $vars);
-  }
+    protected function render($template, array $vars = array()) {
+        return $this->app['twig']->render($template, $vars);
+    }
 }

@@ -13,16 +13,16 @@ use Downloader\Util\Downloader;
  */
 class IndexController extends BaseController
 {
-  public function __construct(Application $_app) {
-      parent::__construct($_app);
-  }
+    public function __construct(Application $_app) {
+        parent::__construct($_app);
+    }
 
-  public function indexAction() {
-    return $this->render('index/index.twig');
-  }
+    public function indexAction() {
+        return $this->render('index/index.twig');
+    }
 
-  public function indexPostAction(Request $request) {
-    $downloader = new Downloader($this->app['downloadfolder'], $this->app['downloadurl']);
-    return $this->app->json($downloader->download($request));
-  }
- }
+    public function indexPostAction(Request $request) {
+        $downloader = new Downloader($this->app['downloadfolder'], $this->app['downloadurl']);
+        return $this->app->json($downloader->download($request));
+    }
+}
