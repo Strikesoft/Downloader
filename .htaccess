@@ -1,6 +1,7 @@
-<IfModule mod_authz_core.c>
-    Options -Indexes 
-</IfModule>
-<IfModule !mod_authz_core.c>
-    Options -Indexes
-</IfModule>
+Options -Indexes
+
+# Protect param.yml
+<Files "param.yml">
+	Order Allow,Deny
+	Deny from all
+</Files>
