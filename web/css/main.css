@@ -1,99 +1,106 @@
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #CFD2DA;
-  background-color: #252830;
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #CFD2DA;
+    background-color: #252830;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 .jumbotron {
-  background-color: #181B24;
+    background-color: #181B24;
 }
 
 .form-control {
-  background-color: #434857;
-  color: #CFD2DA;
+    background-color: #434857;
+    color: #CFD2DA;
 }
 
 .form-control:focus {
-  background-color: #434857;
-  border-color: #0275d8;
-  color: #CFD2DA;
+    background-color: #434857;
+    border-color: #0275d8;
+    color: #CFD2DA;
 }
 
 hr {
-  border-top: 1px solid #434857;
+    border-top: 1px solid #434857;
 }
 
 .center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .btn-outline-primary:hover {
-  color: #FFFFFF;
-  background-color: #434857;
-  border-color: #0275d8;
+    color: #FFFFFF;
+    background-color: #434857;
+    border-color: #0275d8;
+}
+
+.btn-outline-primary.disabled:hover {
+    pointer-events: none;
+    cursor: not-allowed;
+    color: #0275d8;
+    background-color: transparent;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-  background-color: #181B24;
-  text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #181B24;
+    text-align: center;
 }
 
 a {
-  color: #1CA8DD;
-  text-decoration: none;
+    color: #1CA8DD;
+    text-decoration: none;
 }
 
 a:hover, a:focus {
-  color: #137499;
-  text-decoration: underline;
+    color: #137499;
+    text-decoration: underline;
 }
 
 a:focus {
-  outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
 }
 
 .icon {
-  height: 16px;
-  width: 16px;
+    height: 16px;
+    width: 16px;
 }
 
 .heart-icon {
-  fill: #FF0000;
+    fill: #FF0000;
 }
 
 .hide {
-  display: none;
+    display: none;
 }
 
 .alert-success {
-  background-color: #159C6E;
-  border-color: transparent;
+    background-color: #159C6E;
+    border-color: transparent;
 }
 
 .alert a {
-  color: #CFD2DA;
+    color: #CFD2DA;
 }
 
 .alert {
-  color: #CFD2DA;
-  fill: #CFD2DA;
+    color: #CFD2DA;
+    fill: #CFD2DA;
 }
