@@ -21,6 +21,34 @@ class Downloader {
         $this->downloadUrl = $_downloadUrl;
     }
 
+    public function getDownloadInformation() {
+        $bytes = \memory_get_usage();
+        // Convert bytes to a human value
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        }
+        elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        }
+        elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . ' kB';
+        }
+        elseif ($bytes > 1) {
+            $bytes = $bytes . ' bytes';
+        }
+        elseif ($bytes == 1) {
+            $bytes = $bytes . ' byte';
+        }
+        else {
+            $bytes = '0 bytes';
+        }
+        
+        return array(
+            'fileSizeLimit' => $bytes,
+            'allowedExt' => array_merge($this->allowedFiles, $this->allowedImages)
+        );
+    }
+
     public function download(Request $request) {
         $url = $request->request->get('url', null);
         if (strpos($url, 'https://mega.nz/') === 0) {
