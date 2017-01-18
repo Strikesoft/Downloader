@@ -22,7 +22,15 @@ class Downloader {
     }
 
     public function getDownloadInformation() {
-        $bytes = \memory_get_usage();
+        $bytes = ini_get('memory_limit');
+        if (preg_match('/^(\d+)(.)$/', $bytes, $matches)) {
+            if ($matches[2] == 'M') {
+                $bytes = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
+            } else if ($matches[2] == 'K') {
+                $bytes = $matches[1] * 1024; // nnnK -> nnn KB
+            }
+        }
+
         // Convert bytes to a human value
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . ' GB';
