@@ -22,15 +22,7 @@ class Downloader {
     }
 
     public function getDownloadInformation() {
-        $bytes = ini_get('memory_limit');
-        if (preg_match('/^(\d+)(.)$/', $bytes, $matches)) {
-            if ($matches[2] == 'M') {
-                $bytes = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
-            } else if ($matches[2] == 'K') {
-                $bytes = $matches[1] * 1024; // nnnK -> nnn KB
-            }
-        }
-
+        $bytes = $this->getMemoryLimit();
         // Convert bytes to a human value
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . ' GB';
@@ -50,7 +42,6 @@ class Downloader {
         else {
             $bytes = '0 bytes';
         }
-
         return array(
             'fileSizeLimit' => $bytes,
             'allowedExt' => implode(', ', array_merge($this->allowedFiles, $this->allowedImages))
@@ -149,6 +140,17 @@ class Downloader {
             $message = 'file not allowed';
         }
         $isImage = in_array($ext, $this->allowedImages);
+        // File size
+        $client = new Client();
+        $response = $client->request('HEAD', $url, array(
+            'verify' => false // TODO : allow to pass ssl certificate
+        ));
+        $fileSize = $response->getContentLength();
+        Application::log('info', 'Download size : ' . $fileSize);
+        if ($fileSize > $this->getMemoryLimit()) {
+            $error = true;
+            $message = 'The requested file is too heavy';
+        }
         return array(
             'error' => $error,
             'isImage' => $isImage,
@@ -172,5 +174,18 @@ class Downloader {
 
     private function getFileName($url) {
         return @end(explode('/', $url));
+    }
+
+    private function getMemoryLimit() {
+        $bytes = ini_get('memory_limit');
+        if (preg_match('/^(\d+)(.)$/', $bytes, $matches)) {
+            if ($matches[2] == 'M') {
+                $bytes = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
+            } else if ($matches[2] == 'K') {
+                $bytes = $matches[1] * 1024; // nnnK -> nnn KB
+            }
+            return $bytes;
+        }
+        return 0;
     }
 }
