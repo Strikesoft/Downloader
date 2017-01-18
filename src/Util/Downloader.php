@@ -42,10 +42,10 @@ class Downloader {
         else {
             $bytes = '0 bytes';
         }
-        
+
         return array(
             'fileSizeLimit' => $bytes,
-            'allowedExt' => array_merge($this->allowedFiles, $this->allowedImages)
+            'allowedExt' => implode(', ', array_merge($this->allowedFiles, $this->allowedImages))
         );
     }
 

@@ -91,11 +91,6 @@ a:focus {
     display: none;
 }
 
-.alert-success {
-    background-color: #159C6E;
-    border-color: transparent;
-}
-
 .alert a {
     color: #CFD2DA;
 }
@@ -103,4 +98,22 @@ a:focus {
 .alert {
     color: #CFD2DA;
     fill: #CFD2DA;
+    border-color: transparent;
+}
+
+.alert-success {
+    background-color: #159C6E;
+}
+
+.alert-info {
+    background-color: #319DD4;
+}
+
+.close {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.close:hover, .close:focus {
+    color: #252830;
 }
