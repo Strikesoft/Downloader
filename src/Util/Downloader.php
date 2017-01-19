@@ -94,6 +94,16 @@ class Downloader {
                 'message' => 'No file name'
             );
         }
+        if (isset($fileInfo['s']) && !empty($fileInfo['s'])) {
+            $fileSize = intval($fileInfo['s']);
+            Application::log('info', 'Mega Download size : ' . $fileSize);
+            if ($fileSize > $this->getMemoryLimit()) {
+                return array(
+                    'error' => true,
+                    'message' => 'The requested file is too heavy'
+                );
+            }
+        }
         $ext = strtolower(substr(strrchr($filename, '.'), 1));
         if (!in_array($ext, $this->allowedFiles) && !in_array($ext, $this->allowedImages)) {
             return array(
@@ -140,17 +150,20 @@ class Downloader {
             $message = 'file not allowed';
         }
         $isImage = in_array($ext, $this->allowedImages);
+
         // File size
         $client = new Client();
-        $response = $client->request('HEAD', $url, array(
+        $response = $client->head($url, array(
             'verify' => false // TODO : allow to pass ssl certificate
         ));
-        $fileSize = $response->getContentLength();
+        $fileSize = $response->getHeader('Content-Length');
+        $fileSize = intval($fileSize[0]);
         Application::log('info', 'Download size : ' . $fileSize);
         if ($fileSize > $this->getMemoryLimit()) {
             $error = true;
             $message = 'The requested file is too heavy';
         }
+        
         return array(
             'error' => $error,
             'isImage' => $isImage,
