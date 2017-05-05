@@ -1,4 +1,16 @@
 debug: false
 log: false
+allowedExtensions:
+    file:
+        - 'zip'
+        - 'exe'
+        - 'rar'
+        - 'msi'
+    image:
+        - 'png'
+        - 'jpg'
+        - 'jpeg'
+        - 'gif'
+        - 'bmp'
 downloadfolder: /var/www/Downloader/web/download/
 downloadurl: http://mydownloader.com/download/

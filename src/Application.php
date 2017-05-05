@@ -68,6 +68,20 @@ class Application
         }
     }
 
+    public static function getParam($param) {
+        $app = self::getApp()->getSilexApp();
+        try {
+            if (is_array($param) && count($param) === 2) {
+                return $app[$param[0]][$param[1]];
+            }
+            return $app[$param];
+        }
+        catch (\InvalidArgumentException $e) {
+            self::log('error', $e->getMessage());
+            return null;
+        }
+    }
+
     private static function getApp() {
         if (!self::$appDownloader instanceof Application) {
             self::$appDownloader = new Application();
