@@ -109,6 +109,12 @@ a:focus {
     background-color: #319DD4;
 }
 
+.alert-danger {
+    background-color: #dc1e33;
+    border-color: #d31d31;
+    color: #fff;
+}
+
 .close {
     color: #FFFFFF;
     text-shadow: none;

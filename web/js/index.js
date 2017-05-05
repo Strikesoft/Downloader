@@ -15,6 +15,16 @@ var Downloader = (function () {
         });
     }
 
+    function reset(instance) {
+        instance.$input.removeClass('form-control-danger');
+        instance.$formGroupUrl.removeClass('has-danger');
+        instance.$divResultUrl
+            .removeClass('alert-success alert-danger')
+            .addClass('hide');
+        instance.$downloadLink.addClass('hide');
+        instance.$errorMsg.addClass('hide');
+    }
+
     return {
         $input: null,
         $formGroupUrl: null,
@@ -22,9 +32,7 @@ var Downloader = (function () {
         $loader: null,
         $divResultUrl: null,
         download: function () {
-            this.$input.removeClass('form-control-danger');
-            this.$formGroupUrl.removeClass('has-danger');
-            this.$divResultUrl.addClass('hide');
+            reset(this);
             var tmpUrl = this.$input.val();
             // URL must be under 2000 characters
             if (!isUrl(tmpUrl) || tmpUrl.length > 2000) {
@@ -41,9 +49,21 @@ var Downloader = (function () {
                 },
                 callbackSuccess: function (data) {
                     if (typeof data.downloadLink !== 'undefined') {
-                        $('#downloadLink').attr('href', data.downloadLink);
+                        _Downloader.$downloadLink
+                            .attr('href', data.downloadLink)
+                            .removeClass('hide');
                         $('#titleDownload').html(data.filename);
-                        _Downloader.$divResultUrl.removeClass('hide');
+                        _Downloader.$divResultUrl
+                            .addClass('alert-success')
+                            .removeClass('hide');
+                    }
+                    else if (typeof data.error !== 'undefined') {
+                        _Downloader.$divResultUrl
+                            .addClass('alert-danger')
+                            .removeClass('hide');
+                        _Downloader.$errorMsg
+                                    .removeClass('hide')
+                                    .html(data.error);
                     }
                     _Downloader.$btnDl.removeClass('hide');
                     _Downloader.$loader.addClass('hide');
@@ -64,4 +84,6 @@ $(function() {
     Downloader.$divResultUrl = $('#divResultUrl');
     Downloader.$loader = $('.loader');
     Downloader.$btnDl.on('click', function () { Downloader.download(); });
+    Downloader.$downloadLink = $('#downloadLink');
+    Downloader.$errorMsg = $('#errorMsg');
 });
