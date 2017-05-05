@@ -3,3 +3,4 @@
 config/param.yml
 web/download/
 logs/
+cache/
