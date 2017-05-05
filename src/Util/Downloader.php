@@ -13,12 +13,18 @@ use Downloader\Application;
 class Downloader {
     private $pathDownload;
     private $downloadUrl;
-    private $allowedFiles = array('zip', 'exe', 'rar', 'msi');
-    private $allowedImages = array('png', 'jpg', 'jpeg', 'gif', 'bmp');
+    private $allowedFiles;
+    private $allowedImages;
 
     public function __construct($_pathDownload, $_downloadUrl) {
         $this->pathDownload = $_pathDownload;
         $this->downloadUrl = $_downloadUrl;
+
+        // Get parameters from param.yml
+        $tmpAllowedFiles = Application::getParam(array('allowedExtensions', 'file'));
+        $tmpAllowedImages = Application::getParam(array('allowedExtensions', 'image'));
+        $this->allowedFiles = $tmpAllowedFiles !== null ? $tmpAllowedFiles : array();
+        $this->allowedImages = $tmpAllowedImages !== null ? $tmpAllowedImages : array();
     }
 
     public function getDownloadInformation() {
@@ -163,7 +169,7 @@ class Downloader {
             $error = true;
             $message = 'The requested file is too heavy';
         }
-        
+
         return array(
             'error' => $error,
             'isImage' => $isImage,

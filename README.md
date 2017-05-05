@@ -16,9 +16,10 @@ How to setup Downloader
 - Rename in config folder *param.yml.dist* to *param.yml*
 - Set values of *param.yml*
   - *debug* : if you want to see errors
+  - *log* : Enable or disabled logs
+  - *allowedExtensions* : array of allowed extensions see [param.yml.dist](https://github.com/Strikesoft/Downloader/blob/master/config/param.yml.dist)
   - *downloadfolder* : path to the folder where downloads will be stored
   - *downloadurl* : URL used to create download link
-  - *log* : Enable or disabled logs
 - Install dependencies with ``composer install``
 - Setup Apache or Nginx (see examples : [#8](https://github.com/Strikesoft/Downloader/issues/8))
 
