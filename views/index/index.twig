@@ -58,5 +58,9 @@
 <link rel="stylesheet" href="css/index.css"/>
 {% endblock %}
 {% block javascript %}
-<script src="js/index.js"></script>
+    {% if debug %}
+        <script src="js/downloader.js"></script>
+    {% else %}
+        <script src="js/downloader.min.js"></script>
+    {% endif %}
 {% endblock %}

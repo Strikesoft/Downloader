@@ -25,7 +25,8 @@ class IndexController extends BaseController
 
     public function indexAction() {
         return $this->render('index/index.twig', array(
-            'downloadInformation' => $this->downloader->getDownloadInformation()
+            'downloadInformation' => $this->downloader->getDownloadInformation(),
+            'debug' => $this->app['debug']
         ));
     }
 
