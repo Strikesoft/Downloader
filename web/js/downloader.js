@@ -68,104 +68,120 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 
 
-'use strict';
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var Downloader = (function () {
-    function isUrl(str) {
-        return /^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str);
+var _jquery = __webpack_require__(1);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Downloader = function () {
+    function Downloader() {
+        _classCallCheck(this, Downloader);
+
+        this.$input = (0, _jquery2.default)('#inputUrl');
+        this.$formGroupUrl = (0, _jquery2.default)('#formGrpUrl');
+        this.$btnDl = (0, _jquery2.default)('#btnDownload');
+        this.$divResultUrl = (0, _jquery2.default)('#divResultUrl');
+        this.$loader = (0, _jquery2.default)('.loader');
+        this.$downloadLink = (0, _jquery2.default)('#downloadLink');
+        this.$errorMsg = (0, _jquery2.default)('#errorMsg');
     }
 
-    function ajax(params) {
-        __WEBPACK_IMPORTED_MODULE_0_jquery___default.a.ajax({
-            method: 'POST',
-            url: window.location.href,
-            data: params.data,
-            success: params.callbackSuccess,
-            error: params.callbackError
-        });
-    }
+    // private
 
-    function reset(instance) {
-        instance.$input.removeClass('form-control-danger');
-        instance.$formGroupUrl.removeClass('has-danger');
-        instance.$divResultUrl
-            .removeClass('alert-success alert-danger')
-            .addClass('hide');
-        instance.$downloadLink.addClass('hide');
-        instance.$errorMsg.addClass('hide');
-    }
+    _createClass(Downloader, [{
+        key: '_isUrl',
+        value: function _isUrl(str) {
+            return (/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str)
+            );
+        }
+    }, {
+        key: '_ajax',
+        value: function _ajax(params) {
+            _jquery2.default.ajax({
+                method: 'POST',
+                url: window.location.href,
+                data: params.data,
+                success: params.callbackSuccess,
+                error: params.callbackError
+            });
+        }
+    }, {
+        key: '_reset',
+        value: function _reset() {
+            this.$input.removeClass('form-control-danger');
+            this.$formGroupUrl.removeClass('has-danger');
+            this.$divResultUrl.removeClass('alert-success alert-danger').addClass('hide');
+            this.$downloadLink.addClass('hide');
+            this.$errorMsg.addClass('hide');
+        }
+    }, {
+        key: '_download',
+        value: function _download() {
+            var _this = this;
 
-    return {
-        $input: null,
-        $formGroupUrl: null,
-        $btnDl: null,
-        $loader: null,
-        $divResultUrl: null,
-        download: function () {
-            reset(this);
+            this._reset();
             var tmpUrl = this.$input.val();
             // URL must be under 2000 characters
-            if (!isUrl(tmpUrl) || tmpUrl.length > 2000) {
+            if (!this._isUrl(tmpUrl) || tmpUrl.length > 2000) {
                 this.$input.addClass('form-control-danger');
                 this.$formGroupUrl.addClass('has-danger');
                 return;
             }
             this.$btnDl.addClass('hide');
             this.$loader.removeClass('hide');
-            var _Downloader = this;
-            ajax({
+            this._ajax({
                 data: {
                     url: tmpUrl
                 },
-                callbackSuccess: function (data) {
+                callbackSuccess: function callbackSuccess(data) {
                     if (typeof data.downloadLink !== 'undefined') {
-                        _Downloader.$downloadLink
-                            .attr('href', data.downloadLink)
-                            .removeClass('hide');
-                        __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#titleDownload').html(data.filename);
-                        _Downloader.$divResultUrl
-                            .addClass('alert-success')
-                            .removeClass('hide');
+                        _this.$downloadLink.attr('href', data.downloadLink).removeClass('hide');
+                        (0, _jquery2.default)('#titleDownload').html(data.filename);
+                        _this.$divResultUrl.addClass('alert-success').removeClass('hide');
+                    } else if (typeof data.error !== 'undefined') {
+                        _this.$divResultUrl.addClass('alert-danger').removeClass('hide');
+                        _this.$errorMsg.removeClass('hide').html(data.error);
                     }
-                    else if (typeof data.error !== 'undefined') {
-                        _Downloader.$divResultUrl
-                            .addClass('alert-danger')
-                            .removeClass('hide');
-                        _Downloader.$errorMsg
-                                    .removeClass('hide')
-                                    .html(data.error);
-                    }
-                    _Downloader.$btnDl.removeClass('hide');
-                    _Downloader.$loader.addClass('hide');
+                    _this.$btnDl.removeClass('hide');
+                    _this.$loader.addClass('hide');
                 },
-                callbackError: function () {
-                    _Downloader.$btnDl.removeClass('hide');
-                    _Downloader.$loader.addClass('hide');
+                callbackError: function callbackError() {
+                    _this.$btnDl.removeClass('hide');
+                    _this.$loader.addClass('hide');
                 }
             });
         }
-    }
-})();
 
-__WEBPACK_IMPORTED_MODULE_0_jquery___default()(function() {
-    Downloader.$input = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#inputUrl');
-    Downloader.$formGroupUrl = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#formGrpUrl');
-    Downloader.$btnDl = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#btnDownload');
-    Downloader.$divResultUrl = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#divResultUrl');
-    Downloader.$loader = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('.loader');
-    Downloader.$btnDl.on('click', function () { Downloader.download(); });
-    Downloader.$downloadLink = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#downloadLink');
-    Downloader.$errorMsg = __WEBPACK_IMPORTED_MODULE_0_jquery___default()('#errorMsg');
+        // public
+
+    }, {
+        key: 'listenClickDownload',
+        value: function listenClickDownload() {
+            var _this2 = this;
+
+            this.$btnDl.on('click', function () {
+                _this2._download();
+            });
+        }
+    }]);
+
+    return Downloader;
+}();
+
+(0, _jquery2.default)(function () {
+    var downloader = new Downloader();
+    downloader.listenClickDownload();
 });
-
 
 /***/ }),
 /* 1 */

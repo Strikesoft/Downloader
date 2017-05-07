@@ -9,8 +9,12 @@
     "webpack": "^2.5.1"
   },
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.4.0",
     "uglify-js": "^2.8.23",
-    "uglifyjs-webpack-plugin": "^0.4.3"
+    "uglifyjs-webpack-plugin": "^0.4.3",
+    "webpack": "^2.5.1"
   },
   "scripts": {
     "bundle-prod": "webpack --config webpack.config.prod.js",
