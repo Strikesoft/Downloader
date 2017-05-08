@@ -4,3 +4,4 @@ config/param.yml
 web/download/
 logs/
 cache/
+/node_modules/
