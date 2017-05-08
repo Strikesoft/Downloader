@@ -22,7 +22,9 @@
     "bundle-dev": "webpack --config webpack.config.dev.js",
     "watch": "nodemon --watch src/js -x \"npm run bundle-dev\"",
     "serve": "php -S localhost:3000 -t web",
-    "dev": "npm-run-all --parallel watch serve"
+    "dev": "npm-run-all --parallel watch serve",
+    "php-setup": "node setup/setup.js",
+    "setup": "npm-run-all php-setup bundle-prod bundle-dev"
   },
   "repository": {
     "type": "git",
