@@ -1,5 +1,9 @@
 <?php
 $pathComposerSetup = 'setup/composer-setup.php';
+if (is_file($pathComposerSetup)) {
+    unlink($pathComposerSetup);
+}
+
 if (!copy('https://getcomposer.org/installer', $pathComposerSetup)) {
     echo 'Not able to download composer';
     return;

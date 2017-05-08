@@ -6,3 +6,4 @@ logs/
 cache/
 /node_modules/
 composer.phar
+setup/composer-setup.php

@@ -16,6 +16,7 @@ function createParam() {
             return;
         }
         console.log('param.yml created ! \n');
+        console.log('Done !');
     })
 }
 
@@ -23,7 +24,6 @@ exec('php --version',  function (error) {
    if (!error) {
        php = true;
    }
-    createParam();
     myEmitter.emit('php-check');
 });
 
@@ -49,7 +49,7 @@ myEmitter.once('install-vendor', function () {
     console.log('Install vendor... \n');
     exec('php composer.phar install', function (error) {
         if (!error) {
-            console.log('Done !');
+            createParam();
         }
     })
 });
