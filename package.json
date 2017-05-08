@@ -11,15 +11,18 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.4.0",
+    "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "uglify-js": "^2.8.23",
     "uglifyjs-webpack-plugin": "^0.4.3",
-    "webpack": "^2.5.1",
-    "nodemon": "^1.11.0"
+    "webpack": "^2.5.1"
   },
   "scripts": {
     "bundle-prod": "webpack --config webpack.config.prod.js",
     "bundle-dev": "webpack --config webpack.config.dev.js",
-    "watch": "nodemon --watch src/js -x \"npm run bundle-dev\""
+    "watch": "nodemon --watch src/js -x \"npm run bundle-dev\"",
+    "serve": "php -S localhost:3000 -t web",
+    "dev": "npm-run-all --parallel watch serve"
   },
   "repository": {
     "type": "git",
