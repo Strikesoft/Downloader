@@ -5,8 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
-    "jquery": "^3.2.1",
-    "webpack": "^2.5.1"
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -14,11 +13,13 @@
     "babel-preset-env": "^1.4.0",
     "uglify-js": "^2.8.23",
     "uglifyjs-webpack-plugin": "^0.4.3",
-    "webpack": "^2.5.1"
+    "webpack": "^2.5.1",
+    "nodemon": "^1.11.0"
   },
   "scripts": {
     "bundle-prod": "webpack --config webpack.config.prod.js",
-    "bundle-dev": "webpack --config webpack.config.dev.js"
+    "bundle-dev": "webpack --config webpack.config.dev.js",
+    "watch": "nodemon --watch src/js -x \"npm run bundle-dev\""
   },
   "repository": {
     "type": "git",
