@@ -17,7 +17,7 @@ class IndexController extends BaseController
      * @var Downloader $downloader
      */
     private $downloader;
-    
+
     public function __construct(Application $_app) {
         parent::__construct($_app);
         $this->downloader = new Downloader($this->app['downloadfolder'], $this->app['downloadurl']);
@@ -32,5 +32,11 @@ class IndexController extends BaseController
 
     public function indexPostAction(Request $request) {
         return $this->app->json($this->downloader->download($request));
+    }
+
+    public function checkSecure(Request $request) {
+        return $this->app->json(array(
+            'isSecure' => $this->app['passModalHash'] !== null
+        ));
     }
 }

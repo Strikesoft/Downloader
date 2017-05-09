@@ -17,7 +17,8 @@ class Router
     public function __construct(SilexApplication $app) {
         $this->app = $app;
         $this->tabGetRoute = array(
-            '/' => 'indexController:indexAction'
+            '/' => 'indexController:indexAction',
+            '/checkSecure' => 'indexController:checkSecure'
         );
         $this->tabPostRoute = array(
             '/' => 'indexController:indexPostAction'

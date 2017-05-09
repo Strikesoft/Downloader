@@ -1,4 +1,6 @@
 import $ from 'jquery';
+import Utils from './Utils.js';
+import ModalSecure from './ModalSecure.js';
 
 class Downloader {
 
@@ -10,22 +12,13 @@ class Downloader {
         this.$loader = $('.loader');
         this.$downloadLink = $('#downloadLink');
         this.$errorMsg = $('#errorMsg');
+        this._modalSecure = new ModalSecure();
     }
 
     // private
 
     _isUrl(str) {
         return /^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str);
-    }
-
-    _ajax(params) {
-        $.ajax({
-            method: 'POST',
-            url: window.location.href,
-            data: params.data,
-            success: params.callbackSuccess,
-            error: params.callbackError
-        });
     }
 
     _reset() {
@@ -39,17 +32,33 @@ class Downloader {
     }
 
     _download() {
+        if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
+            // TODO : display modal
+            return;
+        }
+        if (this._checkDownload()) {
+            this._launchDownload();
+        }
+    }
+
+    _checkDownload() {
         this._reset();
         const tmpUrl = this.$input.val();
         // URL must be under 2000 characters
         if (!this._isUrl(tmpUrl) || tmpUrl.length > 2000) {
             this.$input.addClass('form-control-danger');
             this.$formGroupUrl.addClass('has-danger');
-            return;
+            return false;
         }
+
         this.$btnDl.addClass('hide');
         this.$loader.removeClass('hide');
-        this._ajax({
+        return true;
+    }
+
+    _launchDownload() {
+        Utils.ajax({
+            method: 'POST',
             data: {
                 url: tmpUrl
             },
@@ -83,12 +92,16 @@ class Downloader {
 
     // public
 
-    listenClickDownload() {
+    initListeners() {
         this.$btnDl.on('click', () => { this._download(); });
+        $(window).on(this._modalSecure.getCheckSecureEvent(), () => {
+            this.$btnDl.removeClass('disabled');
+        });
+        this._modalSecure.checkSecure();
     }
 }
 
 $(function() {
     const downloader = new Downloader();
-    downloader.listenClickDownload();
+    downloader.initListeners();
 });

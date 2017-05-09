@@ -123,3 +123,7 @@ a:focus {
 .close:hover, .close:focus {
     color: #252830;
 }
+
+.disabled {
+    pointer-events: none;
+}
