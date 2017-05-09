@@ -17,6 +17,7 @@ How to setup Downloader
 - Update values of *param.yml*
   - *debug* : if you want to see errors
   - *log* : Enable or disabled logs
+  - *passModalHash* : `sha256` hash which allow to secure the access to Downloader. To set this hash use : `npm run secure-modal` or copy/paste a `sha256` hash
   - *allowedExtensions* : array of allowed extensions see [param.yml.dist](https://github.com/Strikesoft/Downloader/blob/master/config/param.yml.dist)
   - *downloadfolder* : path to the folder where downloads will be stored
   - *downloadurl* : URL used to create download link
