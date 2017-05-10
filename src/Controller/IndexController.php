@@ -34,10 +34,4 @@ class IndexController extends BaseController
     public function indexPostAction(Request $request) {
         return $this->app->json($this->downloader->download($request));
     }
-
-    public function checkSecure(Request $request) {
-        return $this->app->json(array(
-            'isSecure' => $this->app['passModalHash'] !== null
-        ));
-    }
 }

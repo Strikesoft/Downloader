@@ -10417,16 +10417,15 @@ var ModalSecure = function () {
 
     this._secure = false;
     this._logged = false;
-    this._rememberPass = false;
     this._checkSecureDone = false;
     this._events = {
-      CHECKSECURE: 'dl.checksecure',
-      SECUREPASSED: 'dl.securepassed'
+      CHECKSECURE: 'dl.checksecure'
     };
     this._$modal = (0, _jquery2.default)('#secureModal');
     this._$btnSubmit = (0, _jquery2.default)('#btnSubmitSecureModal');
     this._$formGroup = (0, _jquery2.default)('#formGrpPassword');
     this._$input = (0, _jquery2.default)('#inputPassword');
+    this._$loader = (0, _jquery2.default)('#loaderSecureModal');
     this._initListeners();
   }
 
@@ -10452,7 +10451,7 @@ var ModalSecure = function () {
     key: '_checkInput',
     value: function _checkInput() {
       var inputVal = this._$input.val();
-      if (inputVal === 0) {
+      if (inputVal.length === 0) {
         this._$input.addClass('form-control-danger');
         this._$formGroup.addClass('has-danger');
         return false;
@@ -10470,7 +10469,34 @@ var ModalSecure = function () {
     }
   }, {
     key: '_checkPassword',
-    value: function _checkPassword() {}
+    value: function _checkPassword() {
+      var _this2 = this;
+
+      this._reset(false);
+      this._$loader.removeClass('hide');
+      _Utils2.default.ajax({
+        method: 'POST',
+        url: '/checkPassword',
+        data: {
+          password: this._$input.val()
+        },
+        callbackSuccess: function callbackSuccess(data) {
+          _this2._$loader.addClass('hide');
+          if (data.auth !== undefined && data.auth) {
+            _this2._logged = true;
+            _this2._$modal.modal('hide');
+          } else {
+            _this2._$input.addClass('form-control-danger');
+            _this2._$formGroup.addClass('has-danger');
+          }
+        },
+        callbackError: function callbackError() {
+          _this2._$input.addClass('form-control-danger');
+          _this2._$formGroup.addClass('has-danger');
+          _this2._$loader.addClass('hide');
+        }
+      });
+    }
 
     // public
 
@@ -10492,15 +10518,15 @@ var ModalSecure = function () {
   }, {
     key: 'checkSecure',
     value: function checkSecure() {
-      var _this2 = this;
+      var _this3 = this;
 
       _Utils2.default.ajax({
         url: '/checkSecure',
         callbackSuccess: function callbackSuccess(data) {
-          _this2._checkSecureDone = true;
-          (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this2._events.CHECKSECURE));
+          _this3._checkSecureDone = true;
+          (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this3._events.CHECKSECURE));
           if (typeof data.isSecure !== "undefined") {
-            _this2._secure = data.isSecure;
+            _this3._secure = data.isSecure;
           }
         }
       });
@@ -14129,6 +14155,7 @@ var Downloader = function () {
                 return;
             }
 
+            this._$btnDl.tooltip('dispose');
             if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
                 this._modalSecure.showModal();
                 return;

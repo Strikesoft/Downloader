@@ -7,16 +7,15 @@ export default class ModalSecure {
   constructor() {
     this._secure = false;
     this._logged = false;
-    this._rememberPass = false;
     this._checkSecureDone = false;
     this._events = {
-        CHECKSECURE  : 'dl.checksecure',
-        SECUREPASSED : 'dl.securepassed'
+        CHECKSECURE  : 'dl.checksecure'
     }
     this._$modal = $('#secureModal');
     this._$btnSubmit = $('#btnSubmitSecureModal');
     this._$formGroup = $('#formGrpPassword');
     this._$input = $('#inputPassword');
+    this._$loader = $('#loaderSecureModal');
     this._initListeners();
   }
 
@@ -37,7 +36,7 @@ export default class ModalSecure {
 
   _checkInput() {
     const inputVal = this._$input.val();
-    if (inputVal === 0) {
+    if (inputVal.length === 0) {
         this._$input.addClass('form-control-danger');
         this._$formGroup.addClass('has-danger');
         return false;
@@ -54,7 +53,31 @@ export default class ModalSecure {
   }
 
   _checkPassword() {
-
+        this._reset(false);
+        this._$loader.removeClass('hide');
+        Utils.ajax({
+            method: 'POST',
+            url: '/checkPassword',
+            data: {
+                password: this._$input.val()
+            },
+            callbackSuccess: (data) => {
+                this._$loader.addClass('hide');
+                if (data.auth !== undefined && data.auth) {
+                    this._logged = true;
+                    this._$modal.modal('hide');
+                }
+                else {
+                    this._$input.addClass('form-control-danger');
+                    this._$formGroup.addClass('has-danger');
+                }
+            },
+            callbackError: () => {
+                this._$input.addClass('form-control-danger');
+                this._$formGroup.addClass('has-danger');
+                this._$loader.addClass('hide');
+            }
+        });
   }
 
   // public
@@ -78,7 +101,7 @@ export default class ModalSecure {
           this._checkSecureDone = true;
           $(window).trigger($.Event(this._events.CHECKSECURE));
           if (typeof data.isSecure !== "undefined") {
-              this._secure = data.isSecure;
+            this._secure = data.isSecure;
           }
       }
     });

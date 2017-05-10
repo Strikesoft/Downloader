@@ -53,6 +53,10 @@ hr {
     background-color: transparent;
 }
 
+.btn-outline-secondary {
+    border-color: #434857;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -125,8 +129,16 @@ a:focus {
     color: #252830;
 }
 
+.modal-header {
+    border-bottom: 1px solid #434857;
+}
+
 .modal-content {
     background-color: #181B24;
+}
+
+.modal-footer {
+    border-top: 1px solid #434857;
 }
 
 .modal-body {

@@ -41,7 +41,8 @@ class Downloader {
             }, 800);
             return;
         }
-
+		
+		this._$btnDl.tooltip('dispose');
         if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
             this._modalSecure.showModal();
             return;
@@ -111,7 +112,7 @@ class Downloader {
     }
 }
 
-$(function() {
+$(() => {
     const downloader = new Downloader();
     downloader.initListeners();
 });
