@@ -39,7 +39,8 @@ hr {
     margin-right: auto;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
     color: #FFFFFF;
     background-color: #434857;
     border-color: #0275d8;
@@ -124,6 +125,14 @@ a:focus {
     color: #252830;
 }
 
-.disabled {
-    pointer-events: none;
+.modal-content {
+    background-color: #181B24;
+}
+
+.modal-body {
+    background-color: #181B24;
+}
+
+.btn.disabled, .btn:disabled {
+    cursor: auto;
 }

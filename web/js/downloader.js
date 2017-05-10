@@ -10371,6 +10371,12 @@ var Utils = function () {
                 error: params.callbackError
             });
         }
+    }, {
+        key: 'isUrl',
+        value: function isUrl(str) {
+            return (/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str)
+            );
+        }
     }]);
 
     return Utils;
@@ -10386,7 +10392,7 @@ exports.default = Utils;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10395,7 +10401,7 @@ var _jquery = __webpack_require__(0);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-__webpack_require__(4);
+__webpack_require__(3);
 
 var _Utils = __webpack_require__(1);
 
@@ -10406,197 +10412,113 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ModalSecure = function () {
-    function ModalSecure() {
-        _classCallCheck(this, ModalSecure);
+  function ModalSecure() {
+    _classCallCheck(this, ModalSecure);
 
-        this._secure = false;
-        this._logged = false;
-        this._rememberPass = false;
-        this._checkSecureDone = false;
-        this._events = {
-            CHECKSECURE: 'dl.checksecure'
-        };
+    this._secure = false;
+    this._logged = false;
+    this._rememberPass = false;
+    this._checkSecureDone = false;
+    this._events = {
+      CHECKSECURE: 'dl.checksecure',
+      SECUREPASSED: 'dl.securepassed'
+    };
+    this._$modal = (0, _jquery2.default)('#secureModal');
+    this._$btnSubmit = (0, _jquery2.default)('#btnSubmitSecureModal');
+    this._$formGroup = (0, _jquery2.default)('#formGrpPassword');
+    this._$input = (0, _jquery2.default)('#inputPassword');
+    this._initListeners();
+  }
+
+  // private
+
+  _createClass(ModalSecure, [{
+    key: '_initListeners',
+    value: function _initListeners() {
+      var _this = this;
+
+      this._$btnSubmit.on('click', function () {
+        _this._reset(false);
+        if (_this._checkInput()) {
+          _this._checkPassword();
+        }
+      });
+
+      this._$modal.on('hidden.bs.modal', function () {
+        _this._reset(true);
+      });
     }
+  }, {
+    key: '_checkInput',
+    value: function _checkInput() {
+      var inputVal = this._$input.val();
+      if (inputVal === 0) {
+        this._$input.addClass('form-control-danger');
+        this._$formGroup.addClass('has-danger');
+        return false;
+      }
+      return true;
+    }
+  }, {
+    key: '_reset',
+    value: function _reset(input) {
+      if (input) {
+        this._$input.val('');
+      }
+      this._$input.removeClass('form-control-danger');
+      this._$formGroup.removeClass('has-danger');
+    }
+  }, {
+    key: '_checkPassword',
+    value: function _checkPassword() {}
 
     // public
 
-    _createClass(ModalSecure, [{
-        key: 'isSecure',
-        value: function isSecure() {
-            return this._secure;
-        }
-    }, {
-        key: 'isLogged',
-        value: function isLogged() {
-            return this._logged;
-        }
-    }, {
-        key: 'getCheckSecureEvent',
-        value: function getCheckSecureEvent() {
-            return this._events.CHECKSECURE;
-        }
-    }, {
-        key: 'checkSecure',
-        value: function checkSecure() {
-            var _this = this;
+  }, {
+    key: 'isSecure',
+    value: function isSecure() {
+      return this._secure;
+    }
+  }, {
+    key: 'isLogged',
+    value: function isLogged() {
+      return this._logged;
+    }
+  }, {
+    key: 'getCheckSecureEvent',
+    value: function getCheckSecureEvent() {
+      return this._events.CHECKSECURE;
+    }
+  }, {
+    key: 'checkSecure',
+    value: function checkSecure() {
+      var _this2 = this;
 
-            _Utils2.default.ajax({
-                url: '/checkSecure',
-                callbackSuccess: function callbackSuccess(data) {
-                    _this._checkSecureDone = true;
-                    (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this._events.CHECKSECURE));
-                    if (typeof data.isSecure !== "undefined") {
-                        _this._secure = data.isSecure;
-                    }
-                }
-            });
+      _Utils2.default.ajax({
+        url: '/checkSecure',
+        callbackSuccess: function callbackSuccess(data) {
+          _this2._checkSecureDone = true;
+          (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this2._events.CHECKSECURE));
+          if (typeof data.isSecure !== "undefined") {
+            _this2._secure = data.isSecure;
+          }
         }
-    }]);
+      });
+    }
+  }, {
+    key: 'showModal',
+    value: function showModal() {
+      this._$modal.modal('show');
+    }
+  }]);
 
-    return ModalSecure;
+  return ModalSecure;
 }();
 
 exports.default = ModalSecure;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _jquery = __webpack_require__(0);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _Utils = __webpack_require__(1);
-
-var _Utils2 = _interopRequireDefault(_Utils);
-
-var _ModalSecure = __webpack_require__(2);
-
-var _ModalSecure2 = _interopRequireDefault(_ModalSecure);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Downloader = function () {
-    function Downloader() {
-        _classCallCheck(this, Downloader);
-
-        this.$input = (0, _jquery2.default)('#inputUrl');
-        this.$formGroupUrl = (0, _jquery2.default)('#formGrpUrl');
-        this.$btnDl = (0, _jquery2.default)('#btnDownload');
-        this.$divResultUrl = (0, _jquery2.default)('#divResultUrl');
-        this.$loader = (0, _jquery2.default)('.loader');
-        this.$downloadLink = (0, _jquery2.default)('#downloadLink');
-        this.$errorMsg = (0, _jquery2.default)('#errorMsg');
-        this._modalSecure = new _ModalSecure2.default();
-    }
-
-    // private
-
-    _createClass(Downloader, [{
-        key: '_isUrl',
-        value: function _isUrl(str) {
-            return (/^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str)
-            );
-        }
-    }, {
-        key: '_reset',
-        value: function _reset() {
-            this.$input.removeClass('form-control-danger');
-            this.$formGroupUrl.removeClass('has-danger');
-            this.$divResultUrl.removeClass('alert-success alert-danger').addClass('hide');
-            this.$downloadLink.addClass('hide');
-            this.$errorMsg.addClass('hide');
-        }
-    }, {
-        key: '_download',
-        value: function _download() {
-            if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
-                // TODO : display modal
-                return;
-            }
-            if (this._checkDownload()) {
-                this._launchDownload();
-            }
-        }
-    }, {
-        key: '_checkDownload',
-        value: function _checkDownload() {
-            this._reset();
-            var tmpUrl = this.$input.val();
-            // URL must be under 2000 characters
-            if (!this._isUrl(tmpUrl) || tmpUrl.length > 2000) {
-                this.$input.addClass('form-control-danger');
-                this.$formGroupUrl.addClass('has-danger');
-                return false;
-            }
-
-            this.$btnDl.addClass('hide');
-            this.$loader.removeClass('hide');
-            return true;
-        }
-    }, {
-        key: '_launchDownload',
-        value: function _launchDownload() {
-            var _this = this;
-
-            _Utils2.default.ajax({
-                method: 'POST',
-                data: {
-                    url: tmpUrl
-                },
-                callbackSuccess: function callbackSuccess(data) {
-                    if (typeof data.downloadLink !== 'undefined') {
-                        _this.$downloadLink.attr('href', data.downloadLink).removeClass('hide');
-                        (0, _jquery2.default)('#titleDownload').html(data.filename);
-                        _this.$divResultUrl.addClass('alert-success').removeClass('hide');
-                    } else if (typeof data.error !== 'undefined') {
-                        _this.$divResultUrl.addClass('alert-danger').removeClass('hide');
-                        _this.$errorMsg.removeClass('hide').html(data.error);
-                    }
-                    _this.$btnDl.removeClass('hide');
-                    _this.$loader.addClass('hide');
-                },
-                callbackError: function callbackError() {
-                    _this.$btnDl.removeClass('hide');
-                    _this.$loader.addClass('hide');
-                }
-            });
-        }
-
-        // public
-
-    }, {
-        key: 'initListeners',
-        value: function initListeners() {
-            var _this2 = this;
-
-            this.$btnDl.on('click', function () {
-                _this2._download();
-            });
-            (0, _jquery2.default)(window).on(this._modalSecure.getCheckSecureEvent(), function () {
-                _this2.$btnDl.removeClass('disabled');
-            });
-            this._modalSecure.checkSecure();
-        }
-    }]);
-
-    return Downloader;
-}();
-
-(0, _jquery2.default)(function () {
-    var downloader = new Downloader();
-    downloader.initListeners();
-});
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery, Tether) {/*!
@@ -14138,6 +14060,154 @@ var Popover = function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(5)))
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(0);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _Utils = __webpack_require__(1);
+
+var _Utils2 = _interopRequireDefault(_Utils);
+
+var _ModalSecure = __webpack_require__(2);
+
+var _ModalSecure2 = _interopRequireDefault(_ModalSecure);
+
+__webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Downloader = function () {
+    function Downloader() {
+        _classCallCheck(this, Downloader);
+
+        this._$input = (0, _jquery2.default)('#inputUrl');
+        this._$formGroupUrl = (0, _jquery2.default)('#formGrpUrl');
+        this._$btnDl = (0, _jquery2.default)('#btnDownload');
+        this._$btnDl.tooltip({
+            title: 'Checking security parameters...',
+            trigger: 'manual'
+        });
+        this._$divResultUrl = (0, _jquery2.default)('#divResultUrl');
+        this._$loader = (0, _jquery2.default)('.loader');
+        this._$downloadLink = (0, _jquery2.default)('#downloadLink');
+        this._$errorMsg = (0, _jquery2.default)('#errorMsg');
+        this._modalSecure = new _ModalSecure2.default();
+    }
+
+    // private
+
+    _createClass(Downloader, [{
+        key: '_reset',
+        value: function _reset() {
+            this._$input.removeClass('form-control-danger');
+            this._$formGroupUrl.removeClass('has-danger');
+            this._$divResultUrl.removeClass('alert-success alert-danger').addClass('hide');
+            this._$downloadLink.addClass('hide');
+            this._$errorMsg.addClass('hide');
+        }
+    }, {
+        key: '_download',
+        value: function _download() {
+            var _this = this;
+
+            if (this._$btnDl.hasClass('disabled')) {
+                this._$btnDl.tooltip('show');
+                var $button = this._$btnDl;
+                setTimeout(function () {
+                    _this._$btnDl.tooltip('hide');
+                }, 800);
+                return;
+            }
+
+            if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
+                this._modalSecure.showModal();
+                return;
+            }
+            if (this._checkDownload()) {
+                this._launchDownload();
+            }
+        }
+    }, {
+        key: '_checkDownload',
+        value: function _checkDownload() {
+            this._reset();
+            var tmpUrl = this._$input.val();
+            // URL must be under 2000 characters
+            if (!_Utils2.default.isUrl(tmpUrl) || tmpUrl.length > 2000) {
+                this._$input.addClass('form-control-danger');
+                this._$formGroupUrl.addClass('has-danger');
+                return false;
+            }
+
+            this._$btnDl.addClass('hide');
+            this._$loader.removeClass('hide');
+            return true;
+        }
+    }, {
+        key: '_launchDownload',
+        value: function _launchDownload() {
+            var _this2 = this;
+
+            _Utils2.default.ajax({
+                method: 'POST',
+                data: {
+                    url: tmpUrl
+                },
+                callbackSuccess: function callbackSuccess(data) {
+                    if (typeof data.downloadLink !== 'undefined') {
+                        _this2._$downloadLink.attr('href', data.downloadLink).removeClass('hide');
+                        (0, _jquery2.default)('#titleDownload').html(data.filename);
+                        _this2._$divResultUrl.addClass('alert-success').removeClass('hide');
+                    } else if (typeof data.error !== 'undefined') {
+                        _this2._$divResultUrl.addClass('alert-danger').removeClass('hide');
+                        _this2._$errorMsg.removeClass('hide').html(data.error);
+                    }
+                    _this2._$btnDl.removeClass('hide');
+                    _this2._$loader.addClass('hide');
+                },
+                callbackError: function callbackError() {
+                    _this2._$btnDl.removeClass('hide');
+                    _this2._$loader.addClass('hide');
+                }
+            });
+        }
+
+        // public
+
+    }, {
+        key: 'initListeners',
+        value: function initListeners() {
+            var _this3 = this;
+
+            this._$btnDl.on('click', function () {
+                _this3._download();
+            });
+            (0, _jquery2.default)(window).on(this._modalSecure.getCheckSecureEvent(), function () {
+                _this3._$btnDl.removeClass('disabled');
+            });
+            this._modalSecure.checkSecure();
+        }
+    }]);
+
+    return Downloader;
+}();
+
+(0, _jquery2.default)(function () {
+    var downloader = new Downloader();
+    downloader.initListeners();
+});
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15963,7 +16033,7 @@ return Tether;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-__webpack_require__(3);
+__webpack_require__(4);
 module.exports = __webpack_require__(2);
 
 

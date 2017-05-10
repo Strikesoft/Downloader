@@ -1,39 +1,49 @@
 import $ from 'jquery';
 import Utils from './Utils.js';
 import ModalSecure from './ModalSecure.js';
+import 'bootstrap';
 
 class Downloader {
 
     constructor() {
-        this.$input = $('#inputUrl');
-        this.$formGroupUrl = $('#formGrpUrl');
-        this.$btnDl = $('#btnDownload');
-        this.$divResultUrl = $('#divResultUrl');
-        this.$loader = $('.loader');
-        this.$downloadLink = $('#downloadLink');
-        this.$errorMsg = $('#errorMsg');
+        this._$input = $('#inputUrl');
+        this._$formGroupUrl = $('#formGrpUrl');
+        this._$btnDl = $('#btnDownload');
+        this._$btnDl.tooltip({
+            title: 'Checking security parameters...',
+            trigger: 'manual'
+        });
+        this._$divResultUrl = $('#divResultUrl');
+        this._$loader = $('.loader');
+        this._$downloadLink = $('#downloadLink');
+        this._$errorMsg = $('#errorMsg');
         this._modalSecure = new ModalSecure();
     }
 
     // private
 
-    _isUrl(str) {
-        return /^(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i.test(str);
-    }
-
     _reset() {
-        this.$input.removeClass('form-control-danger');
-        this.$formGroupUrl.removeClass('has-danger');
-        this.$divResultUrl
+        this._$input.removeClass('form-control-danger');
+        this._$formGroupUrl.removeClass('has-danger');
+        this._$divResultUrl
             .removeClass('alert-success alert-danger')
             .addClass('hide');
-        this.$downloadLink.addClass('hide');
-        this.$errorMsg.addClass('hide');
+        this._$downloadLink.addClass('hide');
+        this._$errorMsg.addClass('hide');
     }
 
     _download() {
+        if (this._$btnDl.hasClass('disabled')) {
+            this._$btnDl.tooltip('show');
+            const $button = this._$btnDl;
+            setTimeout(() => {
+                this._$btnDl.tooltip('hide');
+            }, 800);
+            return;
+        }
+
         if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
-            // TODO : display modal
+            this._modalSecure.showModal();
             return;
         }
         if (this._checkDownload()) {
@@ -43,16 +53,16 @@ class Downloader {
 
     _checkDownload() {
         this._reset();
-        const tmpUrl = this.$input.val();
+        const tmpUrl = this._$input.val();
         // URL must be under 2000 characters
-        if (!this._isUrl(tmpUrl) || tmpUrl.length > 2000) {
-            this.$input.addClass('form-control-danger');
-            this.$formGroupUrl.addClass('has-danger');
+        if (!Utils.isUrl(tmpUrl) || tmpUrl.length > 2000) {
+            this._$input.addClass('form-control-danger');
+            this._$formGroupUrl.addClass('has-danger');
             return false;
         }
 
-        this.$btnDl.addClass('hide');
-        this.$loader.removeClass('hide');
+        this._$btnDl.addClass('hide');
+        this._$loader.removeClass('hide');
         return true;
     }
 
@@ -64,28 +74,28 @@ class Downloader {
             },
             callbackSuccess: (data) => {
                 if (typeof data.downloadLink !== 'undefined') {
-                    this.$downloadLink
+                    this._$downloadLink
                         .attr('href', data.downloadLink)
                         .removeClass('hide');
                     $('#titleDownload').html(data.filename);
-                    this.$divResultUrl
+                    this._$divResultUrl
                         .addClass('alert-success')
                         .removeClass('hide');
                 }
                 else if (typeof data.error !== 'undefined') {
-                    this.$divResultUrl
+                    this._$divResultUrl
                         .addClass('alert-danger')
                         .removeClass('hide');
-                    this.$errorMsg
+                    this._$errorMsg
                         .removeClass('hide')
                         .html(data.error);
                 }
-                this.$btnDl.removeClass('hide');
-                this.$loader.addClass('hide');
+                this._$btnDl.removeClass('hide');
+                this._$loader.addClass('hide');
             },
             callbackError: () => {
-                this.$btnDl.removeClass('hide');
-                this.$loader.addClass('hide');
+                this._$btnDl.removeClass('hide');
+                this._$loader.addClass('hide');
             }
         });
     }
@@ -93,9 +103,9 @@ class Downloader {
     // public
 
     initListeners() {
-        this.$btnDl.on('click', () => { this._download(); });
+        this._$btnDl.on('click', () => { this._download(); });
         $(window).on(this._modalSecure.getCheckSecureEvent(), () => {
-            this.$btnDl.removeClass('disabled');
+            this._$btnDl.removeClass('disabled');
         });
         this._modalSecure.checkSecure();
     }
