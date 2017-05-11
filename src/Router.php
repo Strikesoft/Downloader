@@ -21,7 +21,7 @@ class Router
             '/checkSecure'   => 'securityController:checkSecure'
         );
         $this->tabPostRoute = array(
-            '/' => 'indexController:indexPostAction',
+            '/'              => 'indexController:indexPostAction',
             '/checkPassword' => 'securityController:checkPassword'
         );
     }

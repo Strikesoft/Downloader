@@ -41,7 +41,7 @@ class Downloader {
             }, 800);
             return;
         }
-		
+
 		this._$btnDl.tooltip('dispose');
         if (this._modalSecure.isSecure() && !this._modalSecure.isLogged()) {
             this._modalSecure.showModal();
@@ -71,7 +71,7 @@ class Downloader {
         Utils.ajax({
             method: 'POST',
             data: {
-                url: tmpUrl
+                url: this._$input.val()
             },
             callbackSuccess: (data) => {
                 if (typeof data.downloadLink !== 'undefined') {
@@ -107,6 +107,9 @@ class Downloader {
         this._$btnDl.on('click', () => { this._download(); });
         $(window).on(this._modalSecure.getCheckSecureEvent(), () => {
             this._$btnDl.removeClass('disabled');
+        });
+        $(window).on(this._modalSecure.getSecurityPassedEvent(), () => {
+            this._download();
         });
         this._modalSecure.checkSecure();
     }

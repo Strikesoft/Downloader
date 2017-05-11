@@ -9,7 +9,8 @@ export default class ModalSecure {
     this._logged = false;
     this._checkSecureDone = false;
     this._events = {
-        CHECKSECURE  : 'dl.checksecure'
+        CHECKSECURE    : 'dl.checksecure',
+        SECURITYPASSED : 'dl.securitypassed'
     }
     this._$modal = $('#secureModal');
     this._$btnSubmit = $('#btnSubmitSecureModal');
@@ -66,6 +67,7 @@ export default class ModalSecure {
                 if (data.auth !== undefined && data.auth) {
                     this._logged = true;
                     this._$modal.modal('hide');
+                    $(window).trigger($.Event(this._events.SECURITYPASSED));
                 }
                 else {
                     this._$input.addClass('form-control-danger');
@@ -92,6 +94,10 @@ export default class ModalSecure {
 
   getCheckSecureEvent() {
     return this._events.CHECKSECURE;
+  }
+
+  getSecurityPassedEvent() {
+    return this._events.SECURITYPASSED;
   }
 
   checkSecure() {

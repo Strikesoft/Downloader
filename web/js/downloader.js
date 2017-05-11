@@ -10419,7 +10419,8 @@ var ModalSecure = function () {
     this._logged = false;
     this._checkSecureDone = false;
     this._events = {
-      CHECKSECURE: 'dl.checksecure'
+      CHECKSECURE: 'dl.checksecure',
+      SECURITYPASSED: 'dl.securitypassed'
     };
     this._$modal = (0, _jquery2.default)('#secureModal');
     this._$btnSubmit = (0, _jquery2.default)('#btnSubmitSecureModal');
@@ -10485,6 +10486,7 @@ var ModalSecure = function () {
           if (data.auth !== undefined && data.auth) {
             _this2._logged = true;
             _this2._$modal.modal('hide');
+            (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this2._events.SECURITYPASSED));
           } else {
             _this2._$input.addClass('form-control-danger');
             _this2._$formGroup.addClass('has-danger');
@@ -10514,6 +10516,11 @@ var ModalSecure = function () {
     key: 'getCheckSecureEvent',
     value: function getCheckSecureEvent() {
       return this._events.CHECKSECURE;
+    }
+  }, {
+    key: 'getSecurityPassedEvent',
+    value: function getSecurityPassedEvent() {
+      return this._events.SECURITYPASSED;
     }
   }, {
     key: 'checkSecure',
@@ -14188,7 +14195,7 @@ var Downloader = function () {
             _Utils2.default.ajax({
                 method: 'POST',
                 data: {
-                    url: tmpUrl
+                    url: this._$input.val()
                 },
                 callbackSuccess: function callbackSuccess(data) {
                     if (typeof data.downloadLink !== 'undefined') {
@@ -14221,6 +14228,9 @@ var Downloader = function () {
             });
             (0, _jquery2.default)(window).on(this._modalSecure.getCheckSecureEvent(), function () {
                 _this3._$btnDl.removeClass('disabled');
+            });
+            (0, _jquery2.default)(window).on(this._modalSecure.getSecurityPassedEvent(), function () {
+                _this3._download();
             });
             this._modalSecure.checkSecure();
         }
