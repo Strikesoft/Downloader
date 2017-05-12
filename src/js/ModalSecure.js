@@ -58,7 +58,7 @@ export default class ModalSecure {
         this._$loader.removeClass('hide');
         Utils.ajax({
             method: 'POST',
-            url: '/checkPassword',
+            url: `${window.location.href}checkPassword`,
             data: {
                 password: this._$input.val()
             },
@@ -102,7 +102,7 @@ export default class ModalSecure {
 
   checkSecure() {
     Utils.ajax({
-      url: '/checkSecure',
+      url: `${window.location.href}checkSecure`,
       callbackSuccess: (data) => {
           this._checkSecureDone = true;
           $(window).trigger($.Event(this._events.CHECKSECURE));

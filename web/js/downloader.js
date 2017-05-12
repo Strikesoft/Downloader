@@ -10477,7 +10477,7 @@ var ModalSecure = function () {
       this._$loader.removeClass('hide');
       _Utils2.default.ajax({
         method: 'POST',
-        url: '/checkPassword',
+        url: window.location.href + 'checkPassword',
         data: {
           password: this._$input.val()
         },
@@ -10528,7 +10528,7 @@ var ModalSecure = function () {
       var _this3 = this;
 
       _Utils2.default.ajax({
-        url: '/checkSecure',
+        url: window.location.href + 'checkSecure',
         callbackSuccess: function callbackSuccess(data) {
           _this3._checkSecureDone = true;
           (0, _jquery2.default)(window).trigger(_jquery2.default.Event(_this3._events.CHECKSECURE));
