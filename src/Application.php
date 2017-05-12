@@ -5,6 +5,7 @@ use Silex\Application as SilexApplication;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\SessionServiceProvider;
 use Downloader\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Yaml\Yaml;
@@ -36,6 +37,9 @@ class Application
         $app = self::getApp()->getSilexApp();
         if (!isset($app['log']) || !$app['log']) {
             return;
+        }
+        if ($vars === null) {
+            $vars = array();
         }
         switch($type) {
             case 'debug':
@@ -82,6 +86,15 @@ class Application
         }
     }
 
+    public static function isSecure() {
+        $app = self::getApp()->getSilexApp();
+        if (isset($app['passModalHash'])) {
+            return $app['passModalHash'] !== null;
+        }
+
+        return false;
+    }
+
     private static function getApp() {
         if (!self::$appDownloader instanceof Application) {
             self::$appDownloader = new Application();
@@ -108,6 +121,13 @@ class Application
                 'monolog.logfile' => __DIR__ . '/../logs/downloader-' . date('Y-m-d') . '.log'
             ));
         }
+
+        $this->app->register(new SessionServiceProvider(), array(
+            'session.storage.options' => array(
+                'name'              => 'downloader',
+                'cookie_lifetime'   => 0
+            )
+        ));
     }
 
     private function run() {

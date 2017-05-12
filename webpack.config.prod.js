@@ -4,7 +4,9 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: [
-        './src/js/index.js'
+        './src/js/Utils.js',
+        './src/js/Downloader.js',
+        './src/js/ModalSecure.js'
     ],
     output: {
         filename: 'downloader.min.js',

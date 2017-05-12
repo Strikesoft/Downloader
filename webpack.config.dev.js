@@ -3,7 +3,9 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: [
-       './src/js/index.js'
+       './src/js/Utils.js',
+       './src/js/Downloader.js',
+       './src/js/ModalSecure.js'
     ],
     output: {
         filename: 'downloader.js',

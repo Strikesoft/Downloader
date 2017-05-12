@@ -1,5 +1,6 @@
 debug: false
 log: false
+passModalHash: null
 allowedExtensions:
     file:
         - 'zip'

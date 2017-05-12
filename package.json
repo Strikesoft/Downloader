@@ -1,6 +1,6 @@
 {
   "name": "Downloader",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A simple software to download what you want from any URL (direct link, mega.nz and maybe more...) on a locked network.\r You'll have to setup Downloader on your **own server**.",
   "main": "index.js",
   "dependencies": {
@@ -11,6 +11,7 @@
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.4.0",
+    "node-yaml": "^3.0.3",
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "uglify-js": "^2.8.23",
@@ -23,8 +24,9 @@
     "watch": "nodemon --watch src/js -x \"npm run bundle-dev\"",
     "serve": "php -S localhost:3000 -t web",
     "dev": "npm-run-all --parallel watch serve",
-    "php-setup": "node setup/setup.js",
-    "setup": "npm-run-all php-setup bundle-prod bundle-dev"
+    "php-setup": "node script/setup.js",
+    "setup": "npm-run-all php-setup bundle-prod bundle-dev",
+    "secure-modal": "node script/secureModalPass.js"
   },
   "repository": {
     "type": "git",

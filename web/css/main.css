@@ -39,7 +39,8 @@ hr {
     margin-right: auto;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
     color: #FFFFFF;
     background-color: #434857;
     border-color: #0275d8;
@@ -50,6 +51,10 @@ hr {
     cursor: not-allowed;
     color: #0275d8;
     background-color: transparent;
+}
+
+.btn-outline-secondary {
+    border-color: #434857;
 }
 
 .footer {
@@ -122,4 +127,24 @@ a:focus {
 
 .close:hover, .close:focus {
     color: #252830;
+}
+
+.modal-header {
+    border-bottom: 1px solid #434857;
+}
+
+.modal-content {
+    background-color: #181B24;
+}
+
+.modal-footer {
+    border-top: 1px solid #434857;
+}
+
+.modal-body {
+    background-color: #181B24;
+}
+
+.btn.disabled, .btn:disabled {
+    cursor: auto;
 }

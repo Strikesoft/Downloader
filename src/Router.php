@@ -17,10 +17,12 @@ class Router
     public function __construct(SilexApplication $app) {
         $this->app = $app;
         $this->tabGetRoute = array(
-            '/' => 'indexController:indexAction'
+            '/'              => 'indexController:indexAction',
+            '/checkSecure'   => 'securityController:checkSecure'
         );
         $this->tabPostRoute = array(
-            '/' => 'indexController:indexPostAction'
+            '/'              => 'indexController:indexPostAction',
+            '/checkPassword' => 'securityController:checkPassword'
         );
     }
 
@@ -44,7 +46,8 @@ class Router
 
     private function registerController() {
         $tabController = array(
-            'indexController' => new Controller\IndexController($this->app)
+            'indexController'    => new Controller\IndexController($this->app),
+            'securityController' => new Controller\SecurityController($this->app)
         );
 
         foreach ($tabController as $key => $value) {
