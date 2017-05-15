@@ -1,6 +1,6 @@
 {
   "name": "Downloader",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A simple software to download what you want from any URL (direct link, mega.nz and maybe more...) on a locked network.\r You'll have to setup Downloader on your **own server**.",
   "main": "index.js",
   "dependencies": {

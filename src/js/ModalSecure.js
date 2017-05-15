@@ -12,11 +12,12 @@ export default class ModalSecure {
         CHECKSECURE    : 'dl.checksecure',
         SECURITYPASSED : 'dl.securitypassed'
     }
-    this._$modal = $('#secureModal');
-    this._$btnSubmit = $('#btnSubmitSecureModal');
-    this._$formGroup = $('#formGrpPassword');
-    this._$input = $('#inputPassword');
-    this._$loader = $('#loaderSecureModal');
+    this._$modal             = $('#secureModal');
+    this._$btnSubmit         = $('#btnSubmitSecureModal');
+    this._$formGroup         = $('#formGrpPassword');
+    this._$input             = $('#inputPassword');
+    this._$loader            = $('#loaderSecureModal');
+    this._$btnPassVisibility = $('#btnToggleVisibPass');
     this._initListeners();
   }
 
@@ -28,6 +29,10 @@ export default class ModalSecure {
         if (this._checkInput()) {
             this._checkPassword();
         }
+    });
+
+    this._$btnPassVisibility.on('click', () => {
+        this._toggleVisibilityPassword();
     });
 
     this._$modal.on('hidden.bs.modal', () => {
@@ -80,6 +85,20 @@ export default class ModalSecure {
                 this._$loader.addClass('hide');
             }
         });
+  }
+
+  _toggleVisibilityPassword() {
+    const inputVal = this._$input.val();
+    if (this._$btnPassVisibility.hasClass('active')) {
+        this._$input.attr('type', 'password')
+                    .val(inputVal);
+        this._$btnPassVisibility.removeClass('active');
+    }
+    else {
+        this._$input.attr('type', 'text')
+                    .val(inputVal);
+        this._$btnPassVisibility.addClass('active');
+    }
   }
 
   // public

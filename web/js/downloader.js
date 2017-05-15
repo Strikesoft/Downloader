@@ -10427,6 +10427,7 @@ var ModalSecure = function () {
     this._$formGroup = (0, _jquery2.default)('#formGrpPassword');
     this._$input = (0, _jquery2.default)('#inputPassword');
     this._$loader = (0, _jquery2.default)('#loaderSecureModal');
+    this._$btnPassVisibility = (0, _jquery2.default)('#btnToggleVisibPass');
     this._initListeners();
   }
 
@@ -10442,6 +10443,10 @@ var ModalSecure = function () {
         if (_this._checkInput()) {
           _this._checkPassword();
         }
+      });
+
+      this._$btnPassVisibility.on('click', function () {
+        _this._toggleVisibilityPassword();
       });
 
       this._$modal.on('hidden.bs.modal', function () {
@@ -10498,6 +10503,18 @@ var ModalSecure = function () {
           _this2._$loader.addClass('hide');
         }
       });
+    }
+  }, {
+    key: '_toggleVisibilityPassword',
+    value: function _toggleVisibilityPassword() {
+      var inputVal = this._$input.val();
+      if (this._$btnPassVisibility.hasClass('active')) {
+        this._$input.attr('type', 'password').val(inputVal);
+        this._$btnPassVisibility.removeClass('active');
+      } else {
+        this._$input.attr('type', 'text').val(inputVal);
+        this._$btnPassVisibility.addClass('active');
+      }
     }
 
     // public
