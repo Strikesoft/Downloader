@@ -33,6 +33,14 @@
     margin-bottom: 5px;
 }
 
+#btnToggleVisibPass {
+    margin-top: 1px;
+}
+
+.col-btn {
+    padding: 0;
+}
+
 @media screen and (min-width: 200px) and (max-width: 640px) {
   #formDownload {
     width: 300px;

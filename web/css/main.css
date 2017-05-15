@@ -92,6 +92,14 @@ a:focus {
     fill: #FF0000;
 }
 
+.eye-icon {
+    fill: #fff;
+}
+
+.btn-icon {
+    margin-top: 5px;
+}
+
 .hide {
     display: none;
 }
