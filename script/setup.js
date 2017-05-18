@@ -1,55 +1,57 @@
 const exec = require('child_process').exec;
-const EventEmitter = require('events');
+const fs = require('fs');
 let php = false;
 
-class Emitter extends EventEmitter {}
-const myEmitter = new Emitter();
-
 function createParam() {
-    if (!php) {
-        return;
-    }
-
-    exec('php -r "copy(\'config/param.yml.dist\', \'config/param.yml\');"', function (error) {
-        if (error) {
-            console.error('Unable to create param.yml');
-            return;
-        }
-        console.log('param.yml created ! \n');
-        console.log('Done !');
-    })
+    fs.createReadStream('config/param.yml.dist').pipe(fs.createWriteStream('config/param.yml'));
+    console.log('param.yml created !');
+    console.log('Done !');
 }
 
-exec('php --version',  function (error) {
-   if (!error) {
-       php = true;
-   }
-    myEmitter.emit('php-check');
-});
-
-myEmitter.once('php-check', function () {
+function downloadComposer() {
     if (!php) {
         console.error('PHP not found !');
         return;
     }
 
-    console.log('PHP found ! \n');
-    console.log('Download composer.phar \n');
-    exec('php setup/downloadComposer.php', function (error, stdout) {
+    console.log('PHP found !');
+    console.log('Download composer.phar...');
+    exec('php script/downloadComposer.php', function (error, stdout) {
         if (!error) {
-            console.log(stdout + '\n');
-            myEmitter.emit('install-vendor');
+            fs.unlinkSync('script/composer-setup.php');
+            installVendors();
             return;
         }
         console.error('Unable to download composer.phar');
     });
-});
+}
 
-myEmitter.once('install-vendor', function () {
-    console.log('Install vendor... \n');
+function installVendors() {
+    if (!fs.existsSync('composer.phar')) {
+        console.error('composer.phar not found');
+        return;
+    }
+
+    console.log('Install vendors... \n');
     exec('php composer.phar install', function (error) {
         if (!error) {
+            fs.unlinkSync('composer.phar');
             createParam();
         }
-    })
-});
+    });
+}
+
+// Install npm dependencies
+console.log('npm install... \n');
+exec('npm i', function (error, stdout, stderr) {
+    console.log(stdout, stderr);
+    if (!error) {
+        exec('php --version',  function (error) {
+            if (!error) {
+                php = true;
+            }
+            downloadComposer();
+        });
+    }
+})
+

@@ -24,8 +24,8 @@
     "watch": "nodemon --watch src/js -x \"npm run bundle-dev\"",
     "serve": "php -S localhost:3000 -t web",
     "dev": "npm-run-all --parallel watch serve",
-    "php-setup": "node script/setup.js",
-    "setup": "npm-run-all php-setup bundle-prod bundle-dev",
+    "dev-setup": "node script/setup.js",
+    "setup": "npm-run-all dev-setup bundle-prod bundle-dev",
     "secure-modal": "node script/secureModalPass.js"
   },
   "repository": {
