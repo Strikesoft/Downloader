@@ -1,3 +1,5 @@
+<p align="center"><img src="web/img/logo/vertical.png" alt="Downloader" height="100px"></p>
+
 # Downloader
 
 A simple software to download what you want from any URL (direct link, mega.nz and maybe more...) on a locked network.
